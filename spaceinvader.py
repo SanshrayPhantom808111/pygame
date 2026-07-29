@@ -59,12 +59,12 @@ while running:
             elif event.key == pygame.K_SPACE and bullet_state == 'ready':
                 bullet_x = player_x
                 bullet_state = 'fire'
-        elif event.type == pygame.K_UP:
+        elif event.type == pygame.KEYUP:
             player_x_change = 0
     player_x = player_x_change
     player_x = max(0,min(player_x,screen_width-64))
     if bullet_state == 'fire':
-        screen.blit(bullet_img,bullet_x+16,bullet_y+10)
+        screen.blit(bullet_img,(bullet_x+16,bullet_y+10))
         bullet_y-= bullet_speed_y
     if bullet_y <=0:
         bullet_y = player_start_y
@@ -73,19 +73,19 @@ while running:
         enemy_x[i]+= enemy_x_change[i] 
         if enemy_x[i] <= 0 or enemy_x[i] >= screen_width-enemy_size:
             enemy_x_change[i] *= -1
-            enemy_y[i] = enemy_speed_y
+            enemy_y[i] += enemy_speed_y
         if math.hypot(enemy_x[i] - bullet_x, enemy_y[i] - bullet_y) < collision_distance:
             score+= 1
             bullet_y = player_start_y
             bullet_state = 'ready'
             enemy_x[i] = random.randint(0,screen_width-enemy_size)
-            enemy_y[i] = random.randint(enemy_start_y_max)
+            enemy_y[i] = random.randint(enemy_start_y_min,enemy_start_y_max)
         if enemy_y[i] > 340:
             screen.blit(game_over.render("GAME OVER",True,(255,255,255)),(180,220))
             running = False
         screen.blit(enemy_img[i],(enemy_x[i],enemy_y[i]))
     screen.blit(player_img,(player_x,player_y))
-    screen.blit(font.render(f"score:{0}",True,(255,255,255)),(10,10))
+    screen.blit(font.render(f"score:{score}",True,(255,255,255)),(10,10))
     pygame.display.update()
     clock.tick(60)
 pygame.quit()
