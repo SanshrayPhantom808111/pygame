@@ -61,7 +61,7 @@ while running:
                 bullet_state = 'fire'
         elif event.type == pygame.KEYUP:
             player_x_change = 0
-    player_x = player_x_change
+    player_x += player_x_change
     player_x = max(0,min(player_x,screen_width-64))
     if bullet_state == 'fire':
         screen.blit(bullet_img,(bullet_x+16,bullet_y+10))
